@@ -47,7 +47,7 @@ public class DDScrollBanner: UIView {
         
     }
     
-    init(frame: CGRect, ImagesArr: [String]) {
+    public init(frame: CGRect, ImagesArr: [String]) {
         super.init(frame: frame)
         self.scrollerViewWidth = frame.width
         self.scrollerViewHeight = frame.height
