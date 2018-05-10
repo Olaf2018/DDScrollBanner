@@ -9,11 +9,11 @@ import UIKit
 import Kingfisher
 
 //图片轮播组件代理协议
-protocol ScrollBannerViewDelegate {
+public protocol ScrollBannerViewDelegate {
     func handleTapAction(index: Int) -> Void
 }
 
-class DDScrollBanner: UIView {
+public class DDScrollBanner: UIView {
     public var delegate: ScrollBannerViewDelegate!
     public var interval: Double = 5.0
     let kScreenWidth = UIScreen.main.bounds.size.width
@@ -66,7 +66,7 @@ class DDScrollBanner: UIView {
         self.backgroundColor = UIColor.white
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -178,7 +178,7 @@ class DDScrollBanner: UIView {
 
 extension DDScrollBanner: UIScrollViewDelegate {
     // scrollView滚动完毕后触发
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 获取当前偏移量
         let offset = scrollView.contentOffset.x
         if(self.dataSource?.count != 0){
@@ -215,13 +215,13 @@ extension DDScrollBanner: UIScrollViewDelegate {
     }
     
     // 手动拖拽滚动开始
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         // 使自动滚动计时器失效（防止用户手动移动图片的时候这边也在自动滚动）
         autoScrollTimer?.invalidate()
     }
     
     // 手动拖拽滚动结束
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView,
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView,
                                   willDecelerate decelerate: Bool) {
         // 重新启动自动滚动计时器
         configureAutoScrollTimer()
