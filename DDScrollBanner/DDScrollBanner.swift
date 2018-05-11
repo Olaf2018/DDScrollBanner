@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-//图片轮播组件代理协议
+// 图片轮播组件代理协议
 public protocol ScrollBannerViewDelegate {
     func handleTapAction(index: Int) -> Void
 }
@@ -16,7 +16,7 @@ public protocol ScrollBannerViewDelegate {
 public class DDScrollBanner: UIView {
     public var delegate: ScrollBannerViewDelegate!
     public var interval: Double = 5.0
-    let kScreenWidth = UIScreen.main.bounds.size.width
+    public var placeholder: String = ""
     
     // 当前展示的图片索引
     var currentIndex: Int = 0
@@ -39,12 +39,10 @@ public class DDScrollBanner: UIView {
         self.configurePageController()
         if ImagesArr.count > 1 {
             self.scrollerView?.isScrollEnabled = true
-            
             self.configureAutoScrollTimer()
         } else {
             self.scrollerView?.isScrollEnabled = false
         }
-        
     }
     
     public init(frame: CGRect, ImagesArr: [String]) {
@@ -109,7 +107,7 @@ public class DDScrollBanner: UIView {
     // 设置页控制器
     func configurePageController() {
         if self.pageControl == nil {
-            self.pageControl = UIPageControl(frame: CGRect(x: kScreenWidth/2-60, y: self.scrollerViewHeight! - 20, width: 120, height: 20))
+            self.pageControl = UIPageControl(frame: CGRect(x: self.frame.size.width/2-60, y: self.scrollerViewHeight! - 20, width: 120, height: 20))
             self.pageControl?.backgroundColor = UIColor.clear
             self.pageControl?.isUserInteractionEnabled = false
             self.addSubview(self.pageControl!)
@@ -137,34 +135,34 @@ public class DDScrollBanner: UIView {
                 self.notificaImageError()
             }
         }
-        // 当前显示的是第一张图片
+        // show first Image
         if self.currentIndex == 0 {
-            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), placeholder: nil, completionHandler: resetBlc)
-            self.self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), placeholder: nil, completionHandler: resetBlc)
+            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
+            self.self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             let rightImageIndex = (self.dataSource?.count)!>1 ? 1 : 0 //保护
-            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?[rightImageIndex])!), completionHandler: resetBlc)
+            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?[rightImageIndex])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
         }
-            // 当前显示的是最好一张图片
+        // show last Image
         else if self.currentIndex == (self.dataSource?.count)! - 1 {
-            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), completionHandler: resetBlc)
-            self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), completionHandler: resetBlc)
-            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), completionHandler: resetBlc)
+            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
+            self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
+            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
         }
-            // 其他情况
+        // another
         else {
-            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), completionHandler: resetBlc)
-            self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex])!), completionHandler: resetBlc)
-            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex + 1])!), completionHandler: resetBlc)
+            self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
+            self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
+            self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex + 1])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
         }
     }
     
     func touchViewAction(){
-        // 添加组件的点击事件
+        // add TapGesture
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction(_:)))
         self.addGestureRecognizer(tap)
     }
     
-    // 点击事件响应@objc
+    // add event
     @objc func handleTapAction(_ tap: UITapGestureRecognizer) -> Void{
         if self.delegate != nil {
             self.delegate.handleTapAction(index: self.currentIndex)
