@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         
         let scrollView = DDScrollBanner.init(frame: CGRect(x: 0, y: 0, width:UIScreen.main.bounds.size.width , height: 150), ImagesArr: imageArr)
         view.addSubview(scrollView)
-        // Do any additional setup after loading the view, typically from a nib.
+        // Do any additional setup after loading the view, typically from a nib.b
     }
     
     override func didReceiveMemoryWarning() {

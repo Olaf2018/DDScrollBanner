@@ -17,6 +17,7 @@ public class DDScrollBanner: UIView {
     public var delegate: ScrollBannerViewDelegate!
     public var interval: Double = 5.0
     public var placeholder: String = ""
+    public var placeholderInmage: UIImage!
     
     // 当前展示的图片索引
     var currentIndex: Int = 0
@@ -99,7 +100,7 @@ public class DDScrollBanner: UIView {
             resetImageViewSource()
         } else {
             // 如果没有图片，站位图
-            self.middleImageView?.image = UIImage.init(named: "")
+            self.middleImageView?.image = placeholderInmage
         }
         
     }

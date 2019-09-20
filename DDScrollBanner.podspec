@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DDScrollBanner"
-  s.version      = "0.0.5"
+  s.version      = "0.0.6"
   s.summary      = "A Swift BannerView"
 
   # This description is used to generate tags and improve search results.
@@ -61,7 +61,7 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
   s.platform     = :ios, "9.0"
-  s.swift_version = '3.2'
+  s.swift_version = '5.0'
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -128,6 +128,6 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "Kingfisher", "~> 4.1.1"
+  s.dependency "Kingfisher", "~> 4.10.1"
 
 end

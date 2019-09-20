@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50DE6E94ABC63717FFAAA03E0C62D34D"
+               BlueprintIdentifier = "BCA7F6F521B87C2AA573CDE461B30568"
                BuildableName = "Pods_DDScrollBanner.framework"
                BlueprintName = "Pods-DDScrollBanner"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "50DE6E94ABC63717FFAAA03E0C62D34D"
+            BlueprintIdentifier = "BCA7F6F521B87C2AA573CDE461B30568"
             BuildableName = "Pods_DDScrollBanner.framework"
             BlueprintName = "Pods-DDScrollBanner"
             ReferencedContainer = "container:Pods.xcodeproj">
