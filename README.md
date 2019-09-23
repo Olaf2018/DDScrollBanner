@@ -9,3 +9,5 @@ pod 'DDScrollBanner'
 let scrollView = DDScrollBanner.init(frame: CGRect(x: 0, y: 0, width:width, height: height), ImagesArr: imageArr)
 view.addSubview(scrollView)
 ```
+### 环境
+iOS 9.0 及以上
