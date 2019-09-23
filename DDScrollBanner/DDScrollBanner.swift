@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-// 图片轮播组件代理协议
+// 代理协议
 public protocol ScrollBannerViewDelegate {
     func handleTapAction(index: Int) -> Void
 }
@@ -23,7 +23,7 @@ public class DDScrollBanner: UIView {
     var currentIndex: Int = 0
     var dataSource: [String]?
     
-    // 用于轮播的左中右三个image（不管几张图片都是这三个imageView交替使用）
+    // 用于轮播的左中右三个imageView
     var leftImageView, middleImageView, rightImageView: UIImageView?
     var scrollerView: UIScrollView?
     var scrollerViewWidth: CGFloat?
@@ -33,12 +33,12 @@ public class DDScrollBanner: UIView {
     // 自动滚动计时器
     var autoScrollTimer: Timer?
     
-    func relodataData(ImagesArr:[String]) {
+    func relodataData(imagesArr:[String]) {
         self.autoScrollTimer?.invalidate()
-        self.dataSource =  ImagesArr
+        self.dataSource =  imagesArr
         self.configureImageView()
         self.configurePageController()
-        if ImagesArr.count > 1 {
+        if imagesArr.count > 1 {
             self.scrollerView?.isScrollEnabled = true
             self.configureAutoScrollTimer()
         } else {
@@ -46,15 +46,15 @@ public class DDScrollBanner: UIView {
         }
     }
     
-    public init(frame: CGRect, ImagesArr: [String]) {
+    public init(frame: CGRect, imagesArr: [String]) {
         super.init(frame: frame)
         self.scrollerViewWidth = frame.width
         self.scrollerViewHeight = frame.height
-        self.dataSource = ImagesArr
+        self.dataSource = imagesArr
         self.configureScrollerView()
         self.configureImageView()
         self.configurePageController()
-        if ImagesArr.count > 1 {
+        if imagesArr.count > 1 {
             self.scrollerView?.isScrollEnabled = true
             
             // 设置自动滚动计时器
@@ -105,7 +105,7 @@ public class DDScrollBanner: UIView {
         
     }
     
-    // 设置页控制器
+    // 页控制器
     func configurePageController() {
         if self.pageControl == nil {
             self.pageControl = UIPageControl(frame: CGRect(x: self.frame.size.width/2-60, y: self.scrollerViewHeight! - 20, width: 120, height: 20))
@@ -117,7 +117,7 @@ public class DDScrollBanner: UIView {
         self.pageControl?.isHidden = (self.dataSource?.count)! == 1
     }
     
-    // 设置自动滚动计时器
+    // 自动滚动计时器
     func configureAutoScrollTimer() {
         autoScrollTimer = Timer.scheduledTimer(timeInterval: self.interval, target: self,
                                                selector: #selector(letItScroll),
@@ -129,27 +129,24 @@ public class DDScrollBanner: UIView {
         self.scrollerView?.setContentOffset(offset, animated: true)
     }
     
-    // 每当滚动后重新设置各个imageView的图片
+    // 滚动后重新设置
     func resetImageViewSource() {
         let resetBlc: CompletionHandler = {(image, error, cacheType, imageURL) in
             if error != nil {
                 self.notificaImageError()
             }
         }
-        // show first Image
         if self.currentIndex == 0 {
             self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             self.self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             let rightImageIndex = (self.dataSource?.count)!>1 ? 1 : 0 //保护
             self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?[rightImageIndex])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
         }
-        // show last Image
         else if self.currentIndex == (self.dataSource?.count)! - 1 {
             self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?.last)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             self.rightImageView?.kf.setImage(with: URL(string: (self.dataSource?.first)!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
         }
-        // another
         else {
             self.leftImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex - 1])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
             self.middleImageView?.kf.setImage(with: URL(string: (self.dataSource?[currentIndex])!), placeholder: UIImage(named: self.placeholder), completionHandler: resetBlc)
@@ -158,12 +155,11 @@ public class DDScrollBanner: UIView {
     }
     
     func touchViewAction(){
-        // add TapGesture
+        // 添加手势
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction(_:)))
         self.addGestureRecognizer(tap)
     }
     
-    // add event
     @objc func handleTapAction(_ tap: UITapGestureRecognizer) -> Void{
         if self.delegate != nil {
             self.delegate.handleTapAction(index: self.currentIndex)
@@ -176,53 +172,45 @@ public class DDScrollBanner: UIView {
 }
 
 extension DDScrollBanner: UIScrollViewDelegate {
-    // scrollView滚动完毕后触发
+    // scrollView滚动后触发
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 获取当前偏移量
         let offset = scrollView.contentOffset.x
         if(self.dataSource?.count != 0){
             
-            // 如果向左滑动（显示下一张）
+            // 向左滑动，下一张
             if(offset >= self.scrollerViewWidth!*2) {
-                // 还原偏移量
                 scrollView.contentOffset = CGPoint(x: self.scrollerViewWidth!, y: 0)
-                
-                // 视图索引+1
                 self.currentIndex = self.currentIndex + 1
-                
                 if self.currentIndex == self.dataSource?.count {
                     self.currentIndex = 0
                 }
             }
-            // 如果向右滑动（显示上一张）
+            // 向右滑动，上一张
             if(offset <= 0) {
-                //还原偏移量
                 scrollView.contentOffset = CGPoint(x: self.scrollerViewWidth!, y: 0)
-                //视图索引-1
                 self.currentIndex = self.currentIndex - 1
                 
                 if self.currentIndex == -1 {
                     self.currentIndex = (self.dataSource?.count)! - 1
                 }
             }
-            // 重新设置各个imageView的图片
+            // 重新设置各imageView
             resetImageViewSource()
-            
-            // 设置页控制器当前页码
             self.pageControl?.currentPage = self.currentIndex
         }
     }
     
-    // 手动拖拽滚动开始
+    // 手动
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // 使自动滚动计时器失效（防止用户手动移动图片的时候这边也在自动滚动）
+        // Timer失效
         autoScrollTimer?.invalidate()
     }
     
-    // 手动拖拽滚动结束
+    // 手动结束
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView,
                                   willDecelerate decelerate: Bool) {
-        // 重新启动自动滚动计时器
+        // 启动Timer
         configureAutoScrollTimer()
     }
 }

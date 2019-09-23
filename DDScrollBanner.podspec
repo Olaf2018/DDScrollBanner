@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DDScrollBanner"
-  s.version      = "0.0.6"
+  s.version      = "0.0.8"
   s.summary      = "A Swift BannerView"
 
   # This description is used to generate tags and improve search results.
