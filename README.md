@@ -1,2 +1,2 @@
 # DDScrollBanner
-Custom Banner View
+swift语言自定义的banner广告视图
